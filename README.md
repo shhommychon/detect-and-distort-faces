@@ -1,6 +1,13 @@
 # Detect and Distort Faces
 
-run.ipynb: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/shhommychon/detect-and-distort-faces/blob/main/run.ipynb)
+- 웹에서 run.ipynb 실행: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/shhommychon/detect-and-distort-faces/blob/main/run.ipynb)
+
+\-\- or \-\-
+
+- ```shell
+  !pip install -r requirements.txt
+  python run.py
+  ```
 
 
 
