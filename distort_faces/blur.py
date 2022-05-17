@@ -4,7 +4,7 @@
 import cv2
 import numpy as np
 
-def averaging(img, x, y, w, h, kernel_size=10):
+def averaging(img, x, y, w, h, kernel_size=10, env="colab"):
     """일반 블러
 
     가장 일반적인 필터링 방법.
@@ -20,9 +20,12 @@ def averaging(img, x, y, w, h, kernel_size=10):
 
     roi = cv2.blur(roi, (kernel_size, kernel_size))
 
-    return cv2.cvtColor(roi, cv2.COLOR_RGB2BGRA)
+    if env=="colab":
+        return cv2.cvtColor(roi, cv2.COLOR_RGB2BGRA)
+    else:
+        return roi
 
-def gaussian_filtering(img, x, y, w, h, scale=0.1, kernel_size=7):
+def gaussian_filtering(img, x, y, w, h, scale=0.1, kernel_size=7, env="colab"):
     """가우시안 블러
 
     균일한 값을 가진 가우시안 함수를 이용한 커널을 이용한 이미지 필터링 방법.
@@ -46,9 +49,12 @@ def gaussian_filtering(img, x, y, w, h, scale=0.1, kernel_size=7):
 
     roi = cv2.GaussianBlur(img_gaussian, (kernel_size, kernel_size), 0)
 
-    return cv2.cvtColor(roi, cv2.COLOR_RGB2BGRA)
+    if env=="colab":
+        return cv2.cvtColor(roi, cv2.COLOR_RGB2BGRA)
+    else:
+        return roi
 
-def median_filtering(img, x, y, w, h, kernel_size=9):
+def median_filtering(img, x, y, w, h, kernel_size=9, env="colab"):
     """중앙값 블러
 
     kernel window에 있는 모든 픽셀들을 정렬한 후 중간값을 선택하여 적용.
@@ -67,7 +73,7 @@ def median_filtering(img, x, y, w, h, kernel_size=9):
 
     return cv2.cvtColor(roi, cv2.COLOR_RGB2BGRA)
 
-def bilateral_filtering(img, x, y, w, h, scale=0.1, kernel_size=9):
+def bilateral_filtering(img, x, y, w, h, scale=0.1, kernel_size=9, env="colab"):
     """양방향 블러
 
     두 픽셀의 거리 차이를 고려하며
@@ -91,4 +97,7 @@ def bilateral_filtering(img, x, y, w, h, scale=0.1, kernel_size=9):
 
     roi = cv2.bilateralFilter(img_bilateral, kernel_size, 75, 75)
 
-    return cv2.cvtColor(roi, cv2.COLOR_RGB2BGRA)
+    if env=="colab":
+        return cv2.cvtColor(roi, cv2.COLOR_RGB2BGRA)
+    else:
+        return roi

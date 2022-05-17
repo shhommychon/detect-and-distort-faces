@@ -5,7 +5,7 @@
 import cv2
 import numpy as np
 
-def wave(img, x, y, w, h):
+def wave(img, x, y, w, h, env="colab"):
     """물경 왜곡 효과
 
     Returns:
@@ -24,9 +24,12 @@ def wave(img, x, y, w, h):
     roi = cv2.remap(roi, map_wave_x, map_wave_y, cv2.INTER_LINEAR, \
                     None, cv2.BORDER_REPLICATE)
 
-    return cv2.cvtColor(roi, cv2.COLOR_RGB2BGRA)
+    if env=="colab":
+        return cv2.cvtColor(roi, cv2.COLOR_RGB2BGRA)
+    else:
+        return roi
 
-def convex(img, x, y, w, h):
+def convex(img, x, y, w, h, env="colab"):
     """볼록 렌즈 효과
 
     Returns:
@@ -54,9 +57,12 @@ def convex(img, x, y, w, h):
     # 준비한 매핑 좌표로 영상 효과 적용
     roi = cv2.remap(roi, map_convex_x, map_convex_y, cv2.INTER_LINEAR)
 
-    return cv2.cvtColor(roi, cv2.COLOR_RGB2BGRA)
+    if env=="colab":
+        return cv2.cvtColor(roi, cv2.COLOR_RGB2BGRA)
+    else:
+        return roi
 
-def concave(img, x, y, w, h):
+def concave(img, x, y, w, h, env="colab"):
     """오목 렌즈 효과
     
     Returns:
@@ -84,4 +90,7 @@ def concave(img, x, y, w, h):
     # 준비한 매핑 좌표로 영상 효과 적용
     roi = cv2.remap(roi, map_concave_x, map_concave_y, cv2.INTER_LINEAR)
 
-    return cv2.cvtColor(roi, cv2.COLOR_RGB2BGRA)
+    if env=="colab":
+        return cv2.cvtColor(roi, cv2.COLOR_RGB2BGRA)
+    else:
+        return roi

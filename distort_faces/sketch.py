@@ -5,7 +5,7 @@
 import cv2
 import numpy as np
 
-def sketch(img, x, y, w, h, sketch_type="white"):
+def sketch(img, x, y, w, h, sketch_type="white", env="colab"):
     """스케치 효과
     
     Params:
@@ -33,7 +33,10 @@ def sketch(img, x, y, w, h, sketch_type="white"):
 
     if sketch_type=="white":
         # 그레이 스케일에서 BGR 컬러 스케일로 변경
-        img_sketch = cv2.cvtColor(sketch, cv2.COLOR_GRAY2BGRA)
+        if env=="colab":
+            img_sketch = cv2.cvtColor(sketch, cv2.COLOR_GRAY2BGRA)
+        else:
+            img_sketch = cv2.cvtColor(sketch, cv2.COLOR_GRAY2RGB)
 
         return img_sketch
     
@@ -43,7 +46,10 @@ def sketch(img, x, y, w, h, sketch_type="white"):
         # 컬러 영상과 스케치 영상과 합성
         img_paint = cv2.bitwise_and(img_paint, img_paint, mask=sketch)
 
-        return cv2.cvtColor(img_paint, cv2.COLOR_RGB2BGRA)
+        if env=="colab":
+            return cv2.cvtColor(img_paint, cv2.COLOR_RGB2BGRA)
+        else:
+            return img_paint
     
     else:
         raise ValueError("sketch_type은 white 또는 merged 둘 중 하나여야 합니다.")

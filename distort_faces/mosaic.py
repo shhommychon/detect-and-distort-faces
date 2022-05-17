@@ -4,7 +4,7 @@
 
 import cv2
 
-def mosaic(img, x, y, w, h, rate=15):
+def mosaic(img, x, y, w, h, rate=15, env="colab"):
     """모자이크
     
     Params:
@@ -20,4 +20,7 @@ def mosaic(img, x, y, w, h, rate=15):
     # 원래 크기로 확대
     roi = cv2.resize(roi, (w,h), interpolation=cv2.INTER_AREA)
 
-    return cv2.cvtColor(roi, cv2.COLOR_RGB2BGRA)
+    if env=="colab":
+        return cv2.cvtColor(roi, cv2.COLOR_RGB2BGRA)
+    else:
+        return roi

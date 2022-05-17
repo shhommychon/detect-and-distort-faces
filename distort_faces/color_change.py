@@ -1,6 +1,6 @@
 import cv2
 
-def desaturate(img, x, y, w, h):
+def desaturate(img, x, y, w, h, env="colab"):
     """흑백처리
 
     Returns:
@@ -11,11 +11,13 @@ def desaturate(img, x, y, w, h):
 
     # 흑백으로 변환
     roi = cv2.cvtColor(roi, cv2.COLOR_RGB2GRAY)
-    roi = cv2.cvtColor(roi, cv2.COLOR_GRAY2BGRA)
 
-    return roi
+    if env=="colab":
+        return cv2.cvtColor(roi, cv2.COLOR_GRAY2BGRA)
+    else:
+        return cv2.cvtColor(roi, cv2.COLOR_GRAY2RGB)
 
-def invert(img, x, y, w, h):
+def invert(img, x, y, w, h, env="colab"):
     """색반전
     
     Returns:
@@ -27,4 +29,7 @@ def invert(img, x, y, w, h):
     # 색 반전
     roi = cv2.bitwise_not(roi)
 
-    return cv2.cvtColor(roi, cv2.COLOR_RGB2BGRA)
+    if env=="colab":
+        return cv2.cvtColor(roi, cv2.COLOR_RGB2BGRA)
+    else:
+        return roi
