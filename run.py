@@ -1,4 +1,4 @@
-from helper.function_keys import detector, distortor
+from helper.function_keys import define_detector, detector, distortor
 
 import cv2
 import numpy as np
@@ -6,9 +6,9 @@ import numpy as np
 SCREEN_WIDTH = 640
 SCREEN_HEIGHT = 480
 
-face_detect = False
-face_detect_model = "none"
-face_distort_type = "none"
+face_detect = True
+face_detect_model = "df_cv"
+face_distort_type = "mosaic"
 
 if __name__ == "__main__":
     cap = cv2.VideoCapture(0)
@@ -16,20 +16,23 @@ if __name__ == "__main__":
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, SCREEN_WIDTH)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, SCREEN_HEIGHT)
 
+    if face_detect:
+        # 아래 옵션 중 얼굴 탐지 모델을 선택하세요.
+        #   "cv2_haar":         cv2.CascadeClassifier
+        #   "df_cv":            deepface.detectors.FaceDetector.build_model("opencv")
+        #   "df_ssd":           deepface.detectors.FaceDetector.build_model("ssd")
+        #   "df_dlib":          deepface.detectors.FaceDetector.build_model("dlib")
+        #   "df_mc":            deepface.detectors.FaceDetector.build_model("mtcnn")
+        #   "df_ret":           deepface.detectors.FaceDetector.build_model("retinaface")
+        #   "df_mp":            deepface.detectors.FaceDetector.build_model("mediapipe")
+        model = define_detector(face_detect_model)
+
     ret, _ = cap.read()
     while ret:
         ret, img = cap.read()
 
         if face_detect:
-            # 아래 옵션 중 얼굴 탐지 모델을 선택하세요.
-            #   "cv2_haar":     cv2.CascadeClassifier
-            #   "df_cv":        deepface.detectors.FaceDetector.build_model("opencv")
-            #   "df_ssd":       deepface.detectors.FaceDetector.build_model("ssd")
-            #   "df_dlib":      deepface.detectors.FaceDetector.build_model("dlib")
-            #   "df_mc":        deepface.detectors.FaceDetector.build_model("mtcnn")
-            #   "df_ret":       deepface.detectors.FaceDetector.build_model("retinaface")
-            #   "df_mp":        deepface.detectors.FaceDetector.build_model("mediapipe")
-            faces = detector(face_detect_model, img)
+            faces = detector(model, face_detect_model, img)
 
             bbox_array = np.zeros([SCREEN_HEIGHT, SCREEN_WIDTH, 4], dtype=np.uint8)
             

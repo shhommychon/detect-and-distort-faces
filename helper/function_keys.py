@@ -1,5 +1,5 @@
-from detect_faces.deepface import deepface_detector
-from detect_faces.opencv import haar_cascade_classifier
+from detect_faces.deepface import build_deepface_detector, deepface_detector
+from detect_faces.opencv import build_haar_cascade_classifier, haar_cascade_classifier
 from distort_faces.blur import averaging, bilateral_filtering, gaussian_filtering, median_filtering
 from distort_faces.color_change import desaturate, invert
 from distort_faces.lens_distortion import concave, convex, wave
@@ -7,22 +7,44 @@ from distort_faces.mosaic import mosaic
 from distort_faces.sketch import sketch
 
 
-def detector(model_type, img):
+def define_detector(model_type):
     # 아래 옵션 중 얼굴 탐지 모델을 선택하세요.
     if model_type == "cv2_haar":
-        faces = haar_cascade_classifier(img)
+        model = build_haar_cascade_classifier()
     elif model_type == "df_cv":
-        faces = deepface_detector(img, detector_backend="opencv")
+        model = build_deepface_detector(detector_backend="opencv")
     elif model_type == "df_ssd":
-        faces = deepface_detector(img, detector_backend="ssd")
+        model = build_deepface_detector(detector_backend="ssd")
     elif model_type == "df_dlib":
-        faces = deepface_detector(img, detector_backend="dlib")
+        model = build_deepface_detector(detector_backend="dlib")
     elif model_type == "df_mc":
-        faces = deepface_detector(img, detector_backend="mtcnn")
+        model = build_deepface_detector(detector_backend="mtcnn")
     elif model_type == "df_ret":
-        faces = deepface_detector(img, detector_backend="retinaface")
+        model = build_deepface_detector(detector_backend="retinaface")
     elif model_type == "df_mp":
-        faces = deepface_detector(img, detector_backend="mediapipe")
+        model = build_deepface_detector(detector_backend="mediapipe")
+    else:
+        raise ValueError(f"Invalid model type: {model_type}")
+    
+    return model
+
+
+def detector(model, model_type, img):
+    # 아래 옵션 중 얼굴 탐지 모델을 선택하세요.
+    if model_type == "cv2_haar":
+        faces = haar_cascade_classifier(model, img)
+    elif model_type == "df_cv":
+        faces = deepface_detector(model, img, detector_backend="opencv")
+    elif model_type == "df_ssd":
+        faces = deepface_detector(model, img, detector_backend="ssd")
+    elif model_type == "df_dlib":
+        faces = deepface_detector(model, img, detector_backend="dlib")
+    elif model_type == "df_mc":
+        faces = deepface_detector(model, img, detector_backend="mtcnn")
+    elif model_type == "df_ret":
+        faces = deepface_detector(model, img, detector_backend="retinaface")
+    elif model_type == "df_mp":
+        faces = deepface_detector(model, img, detector_backend="mediapipe")
     else:
         faces = []
     

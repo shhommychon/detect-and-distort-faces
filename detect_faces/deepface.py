@@ -3,15 +3,18 @@
 
 from deepface.detectors import FaceDetector
 
-def deepface_detector(img, detector_backend="opencv"):
+
+def build_deepface_detector(detector_backend="opencv"):
+    return FaceDetector.build_model(detector_backend)
+
+
+def deepface_detector(face_detector, img, detector_backend="opencv"):
     """
     Params:
         detector_backend: "opencv", "ssd", "dlib", "mtcnn", "retinaface", "mediapipe" 중 하나
     Returns:
         faces: 탐지된 얼굴들의 (x,y,w,h) 좌표들
     """
-    face_detector = FaceDetector.build_model(detector_backend)
-
     try:
         # faces store list of detected_face and region pair
         faces = FaceDetector.detect_faces(face_detector, detector_backend, img, align=False)
